@@ -208,7 +208,7 @@ export default function JobDetailsScreen() {
   }
 
   const isCandidate = user?.role === 'candidate';
-  const hasUserApplied = hasApplied && hasApplied.length > 0;
+  const hasUserApplied = Array.isArray(hasApplied) && hasApplied.length > 0;
   const canApply = isCandidate && !hasUserApplied;
 
   return (

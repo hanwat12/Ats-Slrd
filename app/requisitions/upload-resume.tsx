@@ -133,12 +133,9 @@ export default function UploadResumeScreen() {
           .map((skill) => skill.trim())
           .filter(Boolean),
         experience: parseInt(formData.experience) || 0,
-        resumeFileName: selectedFile.name,
-        resumeFileSize: selectedFile.size || 0,
-        resumeFileUrl: selectedFile.uri,
+        resumeUrl: selectedFile.uri,
         notes: formData.notes,
         uploadedBy: user!.userId as Id<'users'>,
-        uploadedAt: Date.now(),
       });
 
       Alert.alert(

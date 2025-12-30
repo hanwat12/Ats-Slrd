@@ -35,7 +35,7 @@ export default function InterviewFeedback() {
   const updateApplicationStatus = useMutation(api.applications.updateApplicationStatus);
   const createNotification = useMutation(api.notifications.createNotification);
 
-  const currentInterview = interviewWithDetails?.find((int) => int._id === interviewId);
+  const currentInterview = interviewWithDetails?.find((int: any) => int._id === interviewId);
 
   const renderStarRating = (rating: number, setRating: (rating: number) => void) => {
     return (
@@ -61,9 +61,9 @@ export default function InterviewFeedback() {
 
     try {
       await submitFeedback({
-        interviewId: interviewId as string,
-        candidateId: currentInterview?.candidate?._id || '',
-        jobId: currentInterview?.job?._id || '',
+        interviewId: (currentInterview?._id as any) || (interviewId as any),
+        candidateId: (currentInterview?.candidate?._id as any) || '',
+        jobId: (currentInterview?.job?._id as any) || '',
         interviewerName: currentInterview?.interviewerName || '',
         overallRating,
         technicalSkills,
@@ -74,11 +74,12 @@ export default function InterviewFeedback() {
         weaknesses,
         recommendation,
         additionalComments: `${additionalComments}\n\nInterview Rounds: ${rounds}`,
+        interviewerId: '' as any,
       });
 
       // Update interview status to completed
       await updateInterviewStatus({
-        interviewId: interviewId as string,
+        interviewId: (interviewId as any),
         status: 'completed',
         notes: `Feedback submitted. Overall rating: ${overallRating}/5. Recommendation: ${recommendation}`,
       });
@@ -94,18 +95,18 @@ export default function InterviewFeedback() {
       }
 
       await updateApplicationStatus({
-        applicationId: currentInterview?.application?._id || '',
+        applicationId: (currentInterview?.application?._id as any) || '',
         status: newStatus as any,
         notes: `Interview completed. ${recommendation.toUpperCase()} recommendation.`,
       });
 
       // Create notification for candidate
       await createNotification({
-        userId: currentInterview?.candidate?.userId || '',
+        userId: (currentInterview?.candidate?._id as any) || '',
         title: 'Interview Completed',
         message: `Your interview for ${currentInterview?.job?.title} has been completed. We'll get back to you soon.`,
         type: 'application_status',
-        relatedId: currentInterview?.application?._id || '',
+        relatedId: (currentInterview?.application?._id as any) || '',
       });
 
       Alert.alert('Success', 'Feedback submitted successfully!');

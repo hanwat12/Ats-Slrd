@@ -161,7 +161,7 @@ export default function QueryDetailScreen() {
   if (!user || !query) {
     return (
       <SafeAreaView style={styles.container}>
-        <Header title="Query Details" showBack={true} onBackPress={() => router.back()} />
+        <Header title="Query Details" showBack={true} />
         <View style={styles.loadingContainer}>
           <Text>Loading...</Text>
         </View>
@@ -174,7 +174,7 @@ export default function QueryDetailScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Query Details" showBack={true} onBackPress={() => router.back()} />
+      <Header title="Query Details" showBack={true} />
 
       <ScrollView
         style={styles.scrollView}

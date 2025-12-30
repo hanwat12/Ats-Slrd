@@ -136,7 +136,7 @@ export default function CreateQueryScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Create Query" showBack={true} onBackPress={() => router.back()} />
+      <Header title="Create Query" showBack={true} />
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.formContainer}>
