@@ -4,9 +4,13 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL || '', {
-  unsavedChangesWarning: false,
-});
+let convex: ConvexReactClient | null = null;
+
+if (process.env.EXPO_PUBLIC_CONVEX_URL) {
+  convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL, {
+    unsavedChangesWarning: false,
+  });
+}
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -46,7 +50,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 }
 
 export default function RootLayout() {
-  if (!process.env.EXPO_PUBLIC_CONVEX_URL) {
+  if (!convex || !process.env.EXPO_PUBLIC_CONVEX_URL) {
     return (
       <View style={styles.errorContainer}>
         <Text style={styles.errorTitle}>Configuration Error</Text>
@@ -58,7 +62,7 @@ export default function RootLayout() {
   return (
     <ErrorBoundary>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <ConvexProvider client={convex}>
+        <ConvexProvider client={convex!}>
           <Stack
             screenOptions={{
               headerShown: false,
