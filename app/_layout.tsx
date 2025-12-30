@@ -50,11 +50,14 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 }
 
 export default function RootLayout() {
-  if (!convex || !process.env.EXPO_PUBLIC_CONVEX_URL) {
+  if (!convex) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorTitle}>Configuration Error</Text>
-        <Text style={styles.errorText}>Convex URL not configured</Text>
+        <Text style={styles.errorTitle}>Setup Required</Text>
+        <Text style={styles.errorText}>Please add your EXPO_PUBLIC_CONVEX_URL to .env.local</Text>
+        <Text style={styles.errorText} onPress={() => { /* Trigger reload */ }}>
+          Get URL from: https://dashboard.convex.dev
+        </Text>
       </View>
     );
   }
@@ -62,7 +65,7 @@ export default function RootLayout() {
   return (
     <ErrorBoundary>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <ConvexProvider client={convex!}>
+        <ConvexProvider client={convex}>
           <Stack
             screenOptions={{
               headerShown: false,
